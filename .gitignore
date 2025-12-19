@@ -1,0 +1,36 @@
+# Operating System Files
+.DS_Store # macOS specific
+Thumbs.db # Windows specific
+ehthumbs.db # Windows specific
+.Spotlight-V100 # macOS specific
+.Trashes # macOS specific
+Icon? # macOS specific
+
+# Build artifacts
+*.log
+*.temp
+*.tmp
+*.cache
+*.swp # Editor swap files
+
+# Editor/IDE specific files
+.vscode/ # Visual Studio Code
+.idea/ # IntelliJ/WebStorm/etc
+*.sublime-project
+*.sublime-workspace
+
+# Dependency directories (uncomment if applicable to your general workflow)
+# node_modules/ 
+# build/
+# dist/
+# bin/
+
+# Virtual environments
+venv/
+.venv/
+
+/spyral_nb/
+spyral_nb/
+
+daniel_dev/
+spyral_test/
