@@ -27,50 +27,48 @@ from spyral import (
 from pathlib import Path
 import multiprocessing
 
-# workspace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_fitracks_v1.0/")
-# trace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_fitracks_v1.0/Pointcloud/")
+workspace_path = Path("/Volumes/researchEXT/24Mg/mg24_spyral/")
+trace_path = Path("/Volumes/researchEXT/24Mg/run_24Mg/")
 
-workspace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_good_5_tracks/")
-trace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_good_5_tracks/Pointcloud/")
-
-run_min = 54
-run_max = 169
-n_processes = 4
+run_min = 84
+run_max = 84
+n_processes = 1
 
 pad_params = PadParameters(
-    pad_geometry_path=DEFAULT_MAP,
+    pad_geometry_path= DEFAULT_MAP, #Path("/Users/pranjalsingh/Desktop/research_space_spyral/Spyral_1.0/Mg24_rcnp_map.csv")
     pad_time_path=DEFAULT_MAP,
     pad_scale_path=DEFAULT_MAP,
 )
 
+# AT-TPC GET trace analysis
 get_params = GetParameters(
     baseline_window_scale=20.0,
-    peak_separation=50.0, #set to 5 in Zach's version 
-    peak_prominence=20.0,
-    peak_max_width=100.0, #changed from 50.0 to 100.0
-    peak_threshold=100.0, #changed from 40.0 to 100.0
+    peak_separation=30.0, #was 50
+    peak_prominence=30.0,
+    peak_max_width=120.0,
+    peak_threshold=50.0,
 )
 
 frib_params = FribParameters(
     baseline_window_scale=100.0,
-    peak_separation=50.0,  #set to 5 in Zach's version 
-    peak_prominence=30.0, #changed from 20.0 to 30.0
-    peak_max_width=20.0, #changed from 500.0 to 20.0
-    peak_threshold=300.0, #changed from 100.0 to 300.0
-    ic_delay_time_bucket=1100,
+    peak_separation=50.0,
+    peak_prominence=20.0,
+    peak_max_width=500.0,
+    peak_threshold=100.0,
+    ic_delay_time_bucket=150, #was 1100
     ic_multiplicity=1,
 )
 
 det_params = DetectorParameters(
-    magnetic_field=3.0,
-    electric_field=57260.0,
+    magnetic_field=0,
+    electric_field=9690,
     detector_length=1000.0,
-    beam_region_radius=20.0,
-    micromegas_time_bucket=91.98,
-    window_time_bucket=469.21,
-    get_frequency=3.125, #6.25 wasn't for this experiment
-    garfield_file_path=Path("/mnt/home/singhp19/O16_driftvel_analysis/e20020_analysis/e20009_parameters/electrons_e20020.txt"),
-    do_garfield_correction=False, #False for now 
+    beam_region_radius=25.0,
+    micromegas_time_bucket=10.0,
+    window_time_bucket=500.0,
+    get_frequency=3.125,
+    garfield_file_path=Path("/path/to/some/garfield.txt"),
+    do_garfield_correction=False,
 )
 
 cluster_params = ClusterParameters(
@@ -147,7 +145,7 @@ pipe = Pipeline(
         EstimationPhase(estimate_params, det_params),
         InterpSolverPhase(solver_params, det_params),
     ],
-    [False, True, True, False],
+    [True, False, False, False],
     workspace_path,
     trace_path,
 )
