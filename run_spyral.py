@@ -30,12 +30,17 @@ import multiprocessing
 # workspace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_fitracks_v1.0/")
 # trace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_fitracks_v1.0/Pointcloud/")
 
-workspace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_good_5_tracks/")
-trace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_good_5_tracks/Pointcloud/")
+# workspace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_good_5_tracks/")
+# trace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_good_5_tracks/Pointcloud/")
+
+workspace_path = Path("/Volumes/researchEXT/O16/no_efield/")
+trace_path = Path("/Volumes/researchEXT/O16/no_efield/PointcloudLegacy/")
+
+
 
 run_min = 54
 run_max = 169
-n_processes = 4
+n_processes = 5
 
 pad_params = PadParameters(
     pad_geometry_path=DEFAULT_MAP,
@@ -147,7 +152,7 @@ pipe = Pipeline(
         EstimationPhase(estimate_params, det_params),
         InterpSolverPhase(solver_params, det_params),
     ],
-    [False, True, True, False],
+    [False, False, False, True],
     workspace_path,
     trace_path,
 )
