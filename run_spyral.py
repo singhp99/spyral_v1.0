@@ -1,5 +1,6 @@
 import dotenv
 dotenv.load_dotenv()
+import time
 
 from spyral import (
     Pipeline,
@@ -30,11 +31,11 @@ import multiprocessing
 # workspace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_fitracks_v1.0/")
 # trace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_fitracks_v1.0/Pointcloud/")
 
-# workspace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_good_5_tracks/")
-# trace_path = Path("/Volumes/researchEXT/O16/no_efield/no_field_good_5_tracks/Pointcloud/")
+workspace_path = Path("/Volumes/researchEXT/O16/all_analysis_spyralv1.0/all_five_tracks_analysis/combined_5tracks_all")
+trace_path = Path("/Volumes/researchEXT/O16/all_analysis_spyralv1.0/all_five_tracks_analysis/combined_5tracks_all/Pointcloud/")
 
-workspace_path = Path("/Volumes/researchEXT/O16/no_efield/")
-trace_path = Path("/Volumes/researchEXT/O16/no_efield/PointcloudLegacy/")
+# workspace_path = Path("/Volumes/researchEXT/O16/no_efield/")
+# trace_path = Path("/Volumes/researchEXT/O16/no_efield/PointcloudLegacy/")
 
 
 
@@ -81,14 +82,14 @@ det_params = DetectorParameters(
 cluster_params = ClusterParameters(
     min_cloud_size=50,
     hdbscan_parameters= HdbscanParameters(
-    min_points=3,min_size_scale_factor=0.05,
+    min_points=3,min_size_scale_factor=0.03,
     min_size_lower_cutoff=10, 
     cluster_selection_epsilon=10.0,
     ),
     # hdbscan_parameters= None,
     tripclust_parameters=None,
     # tripclust_parameters=TripclustParameters(
-    #     r=6,
+    #     r=6, de
     #     rdnn=True,
     #     k=12,
     #     n=3,
@@ -105,14 +106,14 @@ cluster_params = ClusterParameters(
     #     postprocess=False,
     #     min_depth=25,
     # ),
-    overlap_join=OverlapJoinParameters(
-        min_cluster_size_join=15,
-        circle_overlap_ratio=0.25,
-    ),
-    # overlap_join=None,
+    # overlap_join=OverlapJoinParameters(
+    #     min_cluster_size_join=15,
+    #     circle_overlap_ratio=0.25,
+    # ),
+    overlap_join=None,
     continuity_join = ContinuityJoinParameters(
     join_radius_fraction=0.4,
-    join_z_fraction=0.4),
+    join_z_fraction=0.2), #changed from 0.4
     direction_threshold= 0.5,
     outlier_scale_factor=0.1,
     
@@ -164,4 +165,10 @@ def main():
 
 if __name__ == "__main__":
     multiprocessing.set_start_method("spawn")
+    
+    start_time = time.perf_counter()
     main()
+    end_time = time.perf_counter()
+    
+    execution_time = end_time - start_time
+    print(f"Pipeline execution time: {execution_time:.3f} seconds")
